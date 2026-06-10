@@ -1,4 +1,4 @@
-import { Shield, ArrowRight, Smartphone, Palette, Download, Eye, Lock, Zap } from "lucide-react";
+import { Shield, ArrowRight, Smartphone, Palette, Download, Eye, Lock, Zap, Phone } from "lucide-react";
 
 interface Props {
   onGetStarted: () => void;
@@ -11,8 +11,8 @@ export function LandingPage({ onGetStarted }: Props) {
       <nav className="fixed top-0 left-0 right-0 z-50 glass">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-purple)] flex items-center justify-center">
-              <Lock size={14} className="text-white" />
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">
+              <Lock size={14} className="text-[var(--color-bg)]" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
@@ -27,54 +27,45 @@ export function LandingPage({ onGetStarted }: Props) {
 
       {/* Hero */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-        {/* Background glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--color-accent)]/8 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-[var(--color-purple)]/5 rounded-full blur-[100px] pointer-events-none" />
+        {/* Subtle background glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)]/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 text-center relative z-10">
-          {/* Badge */}
-          <div className="anim-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 gradient-border">
-            <Shield size={14} className="text-green-400" />
-            <span className="text-xs font-medium text-[var(--color-text-muted)]">100% private — no server, no data collection</span>
-          </div>
-
           {/* Heading */}
-          <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-6 anim-fade-up delay-1">
-            Your lockscreen.
+          <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-6 anim-fade-up delay-1">
+            Your phone is lost.
             <br />
-            <span className="shimmer-text">Your contact.</span>
+            <span className="text-[var(--color-accent)]">Now what?</span>
           </h1>
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed anim-fade-up delay-2">
-            Upload any wallpaper. We'll add your name and phone number with a beautiful gradient. 
-            If your phone is lost, the finder knows exactly who to call.
+            LockCard puts your name and phone number directly on your wallpaper. 
+            Whoever finds it sees exactly who to call. No app needed, no unlock required.
           </p>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 anim-fade-up delay-3">
+          <div className="flex flex-col items-center gap-3 anim-fade-up delay-3">
             <button
               onClick={onGetStarted}
-              className="group px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-purple)] text-white font-semibold text-base flex items-center gap-3 hover:shadow-[0_0_40px_rgba(99,102,241,0.3)] transition-all duration-300 cursor-pointer active:scale-[0.97]"
+              className="group px-8 py-4 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-base flex items-center gap-3 hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97]"
             >
               Create your lockscreen
               <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
             </button>
-            <span className="text-sm text-[var(--color-text-muted)]">Free. No signup required.</span>
+            <span className="text-sm text-[var(--color-text-muted)]">Free. No signup. No data collected.</span>
           </div>
 
           {/* Phone mockup preview */}
           <div className="mt-16 sm:mt-24 anim-scale-in delay-5 flex justify-center">
             <div className="relative">
-              {/* Glow behind phone */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-accent)]/20 to-[var(--color-purple)]/10 rounded-[40px] blur-[60px] scale-110 pointer-events-none" />
               <div className="phone-mockup glow-pulse relative z-10 float-anim">
-                <div className="phone-screen flex flex-col justify-end p-5">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
+                <div className="phone-screen flex flex-col justify-end p-5 relative">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   <div className="relative z-10">
                     <p className="font-[family-name:var(--font-display)] text-white text-lg font-bold mb-1">Khushal Sharma</p>
                     <p className="text-white/60 text-xs mb-1">If found please call:</p>
-                    <p className="text-white text-base font-semibold mb-2">9214537373</p>
+                    <p className="text-white text-base font-semibold mb-2">921XXXX373</p>
                     <p className="text-white/50 text-xs">call my brother</p>
                   </div>
                 </div>
@@ -91,13 +82,49 @@ export function LandingPage({ onGetStarted }: Props) {
         </div>
       </section>
 
+      {/* Problem section */}
+      <section className="py-24 sm:py-32 relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 gap-12 items-center">
+            <div className="anim-fade-up">
+              <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3">The problem</p>
+              <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold tracking-tight mb-6 leading-tight">
+                Your phone is locked. 
+                <br />
+                Your contacts are inside.
+              </h2>
+              <p className="text-[var(--color-text-muted)] leading-relaxed mb-6">
+                Every year, millions of phones are lost or stolen. The person who finds yours wants to return it, but your lock screen gives them nothing to work with.
+              </p>
+              <p className="text-[var(--color-text-muted)] leading-relaxed">
+                iOS Medical ID and Android Emergency Info help in crises, but they don't solve the everyday problem: <span className="text-[var(--color-text)]">getting your phone back when you've left it at a restaurant.</span>
+              </p>
+            </div>
+            <div className="anim-fade-up delay-2">
+              <div className="space-y-4">
+                {[
+                  { stat: "70M+", label: "phones lost or stolen each year in the US alone" },
+                  { stat: "Only 1 in 3", label: "lost phones are ever returned to their owner" },
+                  { stat: "0 seconds", label: "it takes for a finder to see your contact info on your wallpaper" },
+                ].map((item) => (
+                  <div key={item.stat} className="p-5 rounded-2xl glass">
+                    <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--color-accent)]">{item.stat}</p>
+                    <p className="text-sm text-[var(--color-text-muted)] mt-1">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it works */}
       <section className="py-24 sm:py-32 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3 anim-fade-up">How it works</p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl font-bold tracking-tight anim-fade-up delay-1">
-              Three steps. Five seconds.
+              Three steps. Ten seconds.
             </h2>
           </div>
 
@@ -106,28 +133,28 @@ export function LandingPage({ onGetStarted }: Props) {
               {
                 step: "01",
                 icon: Smartphone,
-                title: "Upload wallpaper",
-                desc: "Drag & drop any image from your phone or computer.",
+                title: "Pick your wallpaper",
+                desc: "Upload any image from your phone or computer. Your favorite photo, a solid color, anything.",
               },
               {
                 step: "02",
-                icon: Palette,
-                title: "Add your info",
-                desc: "Name, phone number, and an optional message. Pick a gradient style.",
+                icon: Phone,
+                title: "Add your contact",
+                desc: "Enter your name and phone number. Add a short message like 'call my wife' or 'return to owner'.",
               },
               {
                 step: "03",
                 icon: Download,
                 title: "Download & set",
-                desc: "Get your lockscreen-ready PNG. Set it as your wallpaper. Done.",
+                desc: "Get a lockscreen-ready image. Set it as your wallpaper. Done. Your info is now visible to anyone who finds your phone.",
               },
             ].map((item, i) => (
               <div
                 key={item.step}
-                className={`group relative p-8 rounded-3xl glass gradient-border hover-lift anim-fade-up delay-${i + 2}`}
+                className={`group relative p-8 rounded-3xl glass hover-lift anim-fade-up delay-${i + 2}`}
               >
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-purple)]/10 flex items-center justify-center group-hover:from-[var(--color-accent)]/30 group-hover:to-[var(--color-purple)]/20 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--color-accent)]/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/15 transition-all duration-300">
                     <item.icon size={22} className="text-[var(--color-accent-light)]" />
                   </div>
                   <span className="text-xs font-mono text-[var(--color-text-muted)]">{item.step}</span>
@@ -140,25 +167,24 @@ export function LandingPage({ onGetStarted }: Props) {
         </div>
       </section>
 
-      {/* Features */}
+      {/* Why LockCard */}
       <section className="py-24 sm:py-32 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-accent)]/3 to-transparent pointer-events-none" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3 anim-fade-up">Features</p>
+            <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3 anim-fade-up">Why LockCard</p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl font-bold tracking-tight anim-fade-up delay-1">
-              Everything you need.
+              Not just another wallpaper app.
             </h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: Palette, title: "4 gradient presets", desc: "Classic, Subtle, Bold, Minimal — one tap to apply." },
-              { icon: Eye, title: "Live preview", desc: "See exactly how it looks in a phone mockup before downloading." },
-              { icon: Zap, title: "Instant download", desc: "Full-resolution PNG, ready to set as your lockscreen." },
-              { icon: Smartphone, title: "Top or bottom", desc: "Place your contact info wherever it looks best." },
-              { icon: Shield, title: "Zero data collection", desc: "No accounts, no servers, no cookies. Your data stays with you." },
-              { icon: Lock, title: "Works offline", desc: "Once loaded, everything runs in your browser. No internet needed." },
+              { icon: Eye, title: "Live preview", desc: "See exactly how your lockscreen looks before downloading. No guessing." },
+              { icon: Palette, title: "4 gradient styles", desc: "Classic, Subtle, Bold, Minimal. Pick the one that fits your wallpaper." },
+              { icon: Zap, title: "Instant download", desc: "Full-resolution PNG. Set it as your wallpaper and you're done." },
+              { icon: Smartphone, title: "Top or bottom placement", desc: "Put your contact info where it looks best on your specific wallpaper." },
+              { icon: Shield, title: "Zero data collection", desc: "No accounts, no servers, no analytics. Everything runs in your browser." },
+              { icon: Lock, title: "Works offline", desc: "Once loaded, it all runs locally. No internet connection needed." },
             ].map((item, i) => (
               <div
                 key={item.title}
@@ -180,10 +206,7 @@ export function LandingPage({ onGetStarted }: Props) {
       {/* Privacy section */}
       <section className="py-24 sm:py-32 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="relative p-8 sm:p-12 rounded-3xl glass gradient-border overflow-hidden">
-            {/* Background accent */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-accent)]/10 rounded-full blur-[80px] pointer-events-none" />
-
+          <div className="relative p-8 sm:p-12 rounded-3xl glass overflow-hidden">
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center mb-6">
                 <Shield size={28} className="text-green-400" />
@@ -193,7 +216,7 @@ export function LandingPage({ onGetStarted }: Props) {
               </h2>
               <p className="text-[var(--color-text-muted)] leading-relaxed max-w-2xl mb-8">
                 No servers. No databases. No analytics. LockCard runs entirely in your browser using the Canvas API. 
-                Your wallpaper, your name, your phone number — all processed locally. Close the tab and everything is gone.
+                Your wallpaper, your name, your phone number, all processed locally. Close the tab and everything is gone.
               </p>
               <div className="flex flex-wrap gap-3">
                 {["No accounts", "No cookies", "No tracking", "Open source"].map((tag) => (
@@ -210,22 +233,52 @@ export function LandingPage({ onGetStarted }: Props) {
         </div>
       </section>
 
+      {/* Comparison section */}
+      <section className="py-24 sm:py-32 relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3 anim-fade-up">How it compares</p>
+            <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold tracking-tight anim-fade-up delay-1">
+              Why not just use iOS Medical ID?
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-6 anim-fade-up delay-2">
+            <div className="p-6 rounded-2xl glass">
+              <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-text-muted)]">iOS / Android Emergency Info</p>
+              <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
+                <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Hidden behind "Emergency" button</li>
+                <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Most people don't know it exists</li>
+                <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Requires extra taps to access</li>
+                <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Limited customization</li>
+              </ul>
+            </div>
+            <div className="p-6 rounded-2xl glass border border-[var(--color-accent)]/20">
+              <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-accent)]">LockCard</p>
+              <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
+                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Always visible on your lockscreen</li>
+                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Anyone can see it, no tech skills needed</li>
+                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Zero taps, just look at the screen</li>
+                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Works with any wallpaper you choose</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="py-24 sm:py-32 relative text-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-accent)]/5 to-transparent pointer-events-none" />
         <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
           <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 anim-fade-up">
-            Lost phone?<br />
-            <span className="shimmer-text">Found by someone who cares.</span>
+            Don't wait until it's lost.
           </h2>
           <p className="text-lg text-[var(--color-text-muted)] mb-10 anim-fade-up delay-1">
             Create your lockscreen contact card in 30 seconds.
           </p>
           <button
             onClick={onGetStarted}
-            className="group px-10 py-5 rounded-2xl bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-purple)] text-white font-semibold text-lg flex items-center gap-3 mx-auto hover:shadow-[0_0_50px_rgba(99,102,241,0.35)] transition-all duration-300 cursor-pointer active:scale-[0.97] anim-fade-up delay-2"
+            className="group px-10 py-5 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-lg flex items-center gap-3 mx-auto hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97] anim-fade-up delay-2"
           >
-            Get started — it's free
+            Get started, it's free
             <ArrowRight size={20} className="transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>
@@ -235,8 +288,8 @@ export function LandingPage({ onGetStarted }: Props) {
       <footer className="border-t border-[var(--color-border)] py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-purple)] flex items-center justify-center">
-              <Lock size={10} className="text-white" />
+            <div className="w-6 h-6 rounded-md bg-[var(--color-accent)] flex items-center justify-center">
+              <Lock size={10} className="text-[var(--color-bg)]" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-semibold text-sm">LockCard</span>
           </div>
