@@ -45,71 +45,121 @@ export function renderToCanvas(
     gradient.addColorStop(stop.offset, stop.color);
   }
 
+  // Only fill the gradient band, not the whole canvas
   ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, gradientStart, width, gradientEnd - gradientStart);
 
-  // Draw text
+  // Font sizes and spacing
   const fontPreset = FONT_PRESETS[opts.font];
-  const baseFontSize = Math.round(width * 0.04);
-  const smallFontSize = Math.round(width * 0.028);
-  const phoneFontSize = Math.round(width * 0.032);
-  const padding = Math.round(width * 0.06);
-  const gap = Math.round(width * 0.025);
+  const nameFontSize    = Math.round(width * 0.055);
+  const labelFontSize   = Math.round(width * 0.02);
+  const phoneFontSize   = Math.round(width * 0.048);
+  const messageFontSize = Math.round(width * 0.022);
+  const padding         = Math.round(width * 0.07);
+  const gap             = Math.round(width * 0.02);
+  const groupGap        = Math.round(width * 0.06); // larger gap between identity and contact groups
 
   ctx.textBaseline = "top";
 
-  const lines: { text: string; fontSize: number; y: number }[] = [];
+  const lines: {
+    text: string;
+    fontSize: number;
+    y: number;
+    opacity?: number;
+    letterSpacing?: number;
+  }[] = [];
+
+  let hrY = 0;
 
   if (isTop) {
-    let currentY = padding + 20;
+    let y = padding + 20;
 
-    lines.push({ text: opts.name, fontSize: baseFontSize, y: currentY });
-    currentY += baseFontSize + gap;
+    // Identity group
+    lines.push({ text: opts.name, fontSize: nameFontSize, y });
+    const nameBottom = y + nameFontSize;
 
-    lines.push({ text: "If found please call:", fontSize: smallFontSize, y: currentY });
-    currentY += smallFontSize + gap * 3.5;
+    // Divider sits midway through the group gap
+    hrY = nameBottom + groupGap * 0.5;
 
-    lines.push({ text: opts.phone, fontSize: phoneFontSize, y: currentY });
-    currentY += phoneFontSize + gap;
+    // Contact group
+    y = nameBottom + groupGap;
+    lines.push({
+      text: "IF FOUND PLEASE CALL:",
+      fontSize: labelFontSize,
+      y,
+      opacity: 0.6,
+      letterSpacing: 1.5,
+    });
+    y += labelFontSize + gap;
+
+    lines.push({ text: opts.phone, fontSize: phoneFontSize, y });
+    y += phoneFontSize + gap;
 
     if (opts.message) {
-      lines.push({ text: opts.message, fontSize: smallFontSize, y: currentY });
+      lines.push({ text: opts.message, fontSize: messageFontSize, y, opacity: 0.7 });
     }
   } else {
-    let currentY = height - padding;
+    // Build bottom-to-top: start at the bottom edge and walk up
+    let y = height - padding;
 
+    // Message (lowest, optional)
     if (opts.message) {
-      currentY -= smallFontSize;
-      lines.push({ text: opts.message, fontSize: smallFontSize, y: currentY });
-      currentY -= gap;
+      y -= messageFontSize;
+      lines.push({ text: opts.message, fontSize: messageFontSize, y, opacity: 0.7 });
+      y -= gap;
     }
 
-    currentY -= phoneFontSize;
-    lines.push({ text: opts.phone, fontSize: phoneFontSize, y: currentY });
-    currentY -= gap;
-    lines.push({ text: "If found please call:", fontSize: smallFontSize, y: currentY });
-    currentY -= smallFontSize + gap * 3.5;
+    // Phone
+    y -= phoneFontSize;
+    lines.push({ text: opts.phone, fontSize: phoneFontSize, y });
+    y -= gap;
 
-    lines.push({ text: opts.name, fontSize: baseFontSize, y: currentY });
+    // Label
+    y -= labelFontSize;
+    lines.push({
+      text: "IF FOUND PLEASE CALL:",
+      fontSize: labelFontSize,
+      y,
+      opacity: 0.6,
+      letterSpacing: 1.5,
+    });
+
+    // Divider sits midway through the group gap
+    const contactTop = y;
+    hrY = contactTop - groupGap * 0.5;
+
+    // Name (top of bottom block)
+    y = contactTop - groupGap - nameFontSize;
+    lines.push({ text: opts.name, fontSize: nameFontSize, y });
   }
 
-  // Render text lines
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 6;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 2;
+  // Draw text with shadow
+  ctx.shadowColor    = "rgba(0,0,0,0.55)";
+  ctx.shadowBlur     = 14;
+  ctx.shadowOffsetX  = 0;
+  ctx.shadowOffsetY  = 2;
 
   for (const line of lines) {
-    ctx.fillStyle = "white";
-    ctx.font = `${fontPreset.weight} ${line.fontSize}px "${fontPreset.family}", sans-serif`;
+    ctx.fillStyle     = line.opacity ? `rgba(255,255,255,${line.opacity})` : "white";
+    ctx.font          = `${fontPreset.weight} ${line.fontSize}px "${fontPreset.family}", sans-serif`;
+    ctx.letterSpacing = line.letterSpacing ? `${line.letterSpacing}px` : "0px";
     ctx.fillText(line.text, padding, line.y);
   }
 
-  // Reset shadow
-  ctx.shadowColor = "transparent";
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
+  // Reset state before drawing the rule
+  ctx.letterSpacing  = "0px";
+  ctx.shadowColor    = "transparent";
+  ctx.shadowBlur     = 0;
+  ctx.shadowOffsetX  = 0;
+  ctx.shadowOffsetY  = 0;
+
+  // Divider line between identity and contact groups
+  ctx.strokeStyle = "rgba(255,255,255,0.18)";
+  ctx.lineWidth   = 1;
+  ctx.beginPath();
+  ctx.moveTo(padding,         Math.round(hrY));
+  ctx.lineTo(width - padding, Math.round(hrY));
+  ctx.stroke();
 }
 
 export function exportCanvas(canvas: HTMLCanvasElement): string {
