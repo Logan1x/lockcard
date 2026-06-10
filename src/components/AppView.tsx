@@ -1,19 +1,16 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Download, RotateCcw, ArrowLeft, Shield } from "lucide-react";
-import { Header } from "./components/Header";
-import { ImageUpload } from "./components/ImageUpload";
-import { InfoForm } from "./components/InfoForm";
-import { Controls } from "./components/Controls";
-import { PhonePreview } from "./components/PhonePreview";
-import { PrivacyPolicy } from "./components/PrivacyPolicy";
-import { LandingPage } from "./components/LandingPage";
-import { renderToCanvas, exportCanvas } from "./lib/canvas";
-import type { GradientPreset, FontPreset, TextPosition } from "./types";
+import { Header } from "./Header";
+import { ImageUpload } from "./ImageUpload";
+import { InfoForm } from "./InfoForm";
+import { Controls } from "./Controls";
+import { PhonePreview } from "./PhonePreview";
+import { renderToCanvas, exportCanvas } from "../lib/canvas";
+import type { GradientPreset, FontPreset, TextPosition } from "../types";
 
-type Page = "landing" | "app" | "privacy";
-
-export default function App() {
-  const [page, setPage] = useState<Page>("landing");
+export function AppView() {
+  const navigate = useNavigate();
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -23,14 +20,6 @@ export default function App() {
   const [font, setFont] = useState<FontPreset>("clean");
   const [textPosition, setTextPosition] = useState<TextPosition>("bottom");
   const [downloading, setDownloading] = useState(false);
-
-  if (page === "landing") {
-    return <LandingPage onGetStarted={() => setPage("app")} />;
-  }
-
-  if (page === "privacy") {
-    return <PrivacyPolicy onBack={() => setPage("app")} />;
-  }
 
   const handleImageLoad = useCallback((img: HTMLImageElement, dataUrl: string) => {
     setImage(img);
@@ -83,11 +72,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* App nav */}
       <nav className="sticky top-0 z-50 glass border-b border-[var(--color-border)]">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <button
-            onClick={() => setPage("landing")}
+            onClick={() => navigate("/")}
             className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
           >
             <ArrowLeft size={16} />
@@ -98,18 +86,16 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Privacy badge */}
       <div className="max-w-lg mx-auto px-4 mt-4 w-full">
         <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500/10 border border-green-500/20">
           <Shield size={14} className="text-green-500 shrink-0" />
           <p className="text-xs text-green-500/90">
-            100% private — everything runs in your browser. No data leaves your device.
+            100% private, everything runs in your browser. No data leaves your device.
           </p>
         </div>
       </div>
 
       <main className="flex-1 w-full max-w-lg mx-auto px-4 py-6 pb-8">
-        {/* Step 1: Upload */}
         <section className="mb-6">
           <ImageUpload
             onImageLoad={handleImageLoad}
@@ -118,7 +104,6 @@ export default function App() {
           />
         </section>
 
-        {/* Step 2: Info */}
         <section className="mb-6">
           <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
             Contact Info
@@ -133,7 +118,6 @@ export default function App() {
           />
         </section>
 
-        {/* Step 3: Customize */}
         <section className="mb-6">
           <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
             Customize
@@ -148,7 +132,6 @@ export default function App() {
           />
         </section>
 
-        {/* Preview */}
         <section className="mb-6 flex justify-center">
           <PhonePreview
             image={image}
@@ -161,7 +144,6 @@ export default function App() {
           />
         </section>
 
-        {/* Actions */}
         <section className="space-y-3">
           <button
             onClick={handleDownload}
@@ -192,9 +174,9 @@ export default function App() {
       </main>
 
       <footer className="text-center py-4 text-xs text-[var(--color-text-muted)] space-y-1">
-        <p>LockCard — Your info, on your lockscreen</p>
+        <p>LockCard, Your info, on your lockscreen</p>
         <button
-          onClick={() => setPage("privacy")}
+          onClick={() => navigate("/privacy")}
           className="underline hover:text-[var(--color-text)] transition-colors cursor-pointer"
         >
           Privacy Policy

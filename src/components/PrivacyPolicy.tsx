@@ -1,16 +1,14 @@
 import { ArrowLeft, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface Props {
-  onBack: () => void;
-}
-
-export function PrivacyPolicy({ onBack }: Props) {
+export function PrivacyPolicy() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-10 bg-[var(--color-bg)]/80 backdrop-blur-lg border-b border-[var(--color-border)]">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <button
-            onClick={onBack}
+            onClick={() => navigate("/app")}
             className="p-2 rounded-xl hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
           >
             <ArrowLeft size={18} />

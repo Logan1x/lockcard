@@ -1,10 +1,8 @@
 import { Shield, ArrowRight, Smartphone, Palette, Download, Eye, Lock, Zap, Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface Props {
-  onGetStarted: () => void;
-}
-
-export function LandingPage({ onGetStarted }: Props) {
+export function LandingPage() {
+  const navigate = useNavigate();
   return (
     <div className="noise-overlay">
       {/* Nav */}
@@ -17,7 +15,7 @@ export function LandingPage({ onGetStarted }: Props) {
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
           <button
-            onClick={onGetStarted}
+            onClick={() => navigate("/app")}
             className="px-5 py-2 rounded-full text-sm font-medium bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 transition-all duration-200 cursor-pointer active:scale-[0.97]"
           >
             Open App
@@ -47,7 +45,7 @@ export function LandingPage({ onGetStarted }: Props) {
           {/* CTA */}
           <div className="flex flex-col items-center gap-3 anim-fade-up delay-3">
             <button
-              onClick={onGetStarted}
+              onClick={() => navigate("/app")}
               className="group px-8 py-4 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-base flex items-center gap-3 hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97]"
             >
               Create your lockscreen
@@ -275,7 +273,7 @@ export function LandingPage({ onGetStarted }: Props) {
             Create your lockscreen contact card in 30 seconds.
           </p>
           <button
-            onClick={onGetStarted}
+            onClick={() => navigate("/app")}
             className="group px-10 py-5 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-lg flex items-center gap-3 mx-auto hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97] anim-fade-up delay-2"
           >
             Get started, it's free
