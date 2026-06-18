@@ -10,11 +10,11 @@ export function LandingPage() {
   });
 
   const carouselItems = [
-    { img: "/74431463-a98b-4a9d-8a59-9741cd50f65b.jpeg", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
-    { img: "/c9bd51f2-f8dc-406e-a100-d696787e9403.jpeg", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
-    { img: "/e7d7266f-8b59-407a-8372-c29285113eeb.jpeg", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
-    { img: "/5c110299-536c-4da3-b893-5f52e5b680e0.jpeg", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
-    { img: "/95a95cec-2c30-4cd3-956c-0c1e874cb63e.jpeg", name: "Emily Davis", phone: "503-222-3456", msg: "call my mom" },
+    { img: "/74431463-a98b-4a9d-8a59-9741cd50f65b.webp", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
+    { img: "/c9bd51f2-f8dc-406e-a100-d696787e9403.webp", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
+    { img: "/e7d7266f-8b59-407a-8372-c29285113eeb.webp", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
+    { img: "/5c110299-536c-4da3-b893-5f52e5b680e0.webp", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
+    { img: "/95a95cec-2c30-4cd3-956c-0c1e874cb63e.webp", name: "Emily Davis", phone: "503-222-3456", msg: "call my mom" },
   ];
 
   const [carouselIndex, setCarouselIndex] = useState(0);
