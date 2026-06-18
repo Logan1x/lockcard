@@ -1,6 +1,6 @@
 # LockCard
 
-![LockCard Screenshot](screenshot.png)
+![LockCard Screenshot](lockcard-preview.png)
 
 **Turn any wallpaper into a lockscreen contact card.** If your phone is lost, the finder knows who to call — instantly. No passcode. No menus. Just one look.
 
