@@ -37,8 +37,9 @@ export function InfoForm({
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           maxLength={30}
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)]"
+          className="w-full pl-10 pr-12 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/15 transition-all duration-200 placeholder:text-[var(--color-text-muted)]"
         />
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] tabular-nums text-[var(--color-text-muted)]/50">{name.length}/30</span>
       </div>
       <div className="relative">
         <Phone
@@ -51,8 +52,9 @@ export function InfoForm({
           value={phone}
           onChange={(e) => onPhoneChange(formatPhone(e.target.value))}
           maxLength={12}
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)]"
+          className="w-full pl-10 pr-12 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/15 transition-all duration-200 placeholder:text-[var(--color-text-muted)]"
         />
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] tabular-nums text-[var(--color-text-muted)]/50">{phone.length}/12</span>
       </div>
       <div className="relative">
         <MessageSquare
@@ -65,8 +67,9 @@ export function InfoForm({
           onChange={(e) => onMessageChange(e.target.value)}
           rows={2}
           maxLength={60}
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)] resize-none"
+          className="w-full pl-10 pr-12 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/15 transition-all duration-200 placeholder:text-[var(--color-text-muted)] resize-none"
         />
+        <span className="absolute right-3 bottom-3 text-[10px] tabular-nums text-[var(--color-text-muted)]/50">{message.length}/60</span>
       </div>
     </div>
   );

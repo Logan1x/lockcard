@@ -8,12 +8,12 @@
 - [x] PhonePreview empty state: smartphone icon + "No wallpaper yet" with inviting placeholder
 - [x] Add subtle background glow to `/app` page (ties to landing page look)
 
-## Phase 2 — Form & Controls Polish
+## Phase 2 — Form & Controls Polish ✅ (Complete)
 
-- [ ] Add character counters on name/phone/message inputs
-- [ ] Better focus state with subtle ring glow
-- [ ] Gradient buttons: show color swatches (small gradient bars)
-- [ ] Font buttons: show sample text in that font family
+- [x] Add character counters on name (30), phone (12), message (60) inputs
+- [x] Better focus state with `focus:ring-2` subtle ring glow in accent color
+- [x] Gradient buttons: show color swatches — small preview bars with actual gradient
+- [x] Font buttons: show label rendered in the actual font family + weight
 
 ## Phase 3 — Preview & Download
 
