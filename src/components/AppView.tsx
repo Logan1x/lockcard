@@ -7,6 +7,7 @@ import { InfoForm } from "./InfoForm";
 import { Controls } from "./Controls";
 import { PhonePreview } from "./PhonePreview";
 import { renderToCanvas, exportCanvas } from "../lib/canvas";
+import { getAspectRatioWarning } from "../lib/ratio";
 import type { GradientPreset, FontPreset } from "../types";
 
 const STORAGE_KEY = "lockcard-form";
@@ -39,15 +40,18 @@ export function AppView() {
   const [gradient, setGradient] = useState<GradientPreset>(saved.gradient ?? "classic");
   const [font, setFont] = useState<FontPreset>(saved.font ?? "clean");
   const [downloading, setDownloading] = useState(false);
+  const [aspectRatioWarning, setAspectRatioWarning] = useState<string | null>(null);
 
   const handleImageLoad = useCallback((img: HTMLImageElement, dataUrl: string) => {
     setImage(img);
     setImageDataUrl(dataUrl);
+    setAspectRatioWarning(getAspectRatioWarning(img.naturalWidth, img.naturalHeight));
   }, []);
 
   const handleClearImage = useCallback(() => {
     setImage(null);
     setImageDataUrl(null);
+    setAspectRatioWarning(null);
   }, []);
 
   const handleDownload = useCallback(() => {
@@ -130,6 +134,12 @@ export function AppView() {
                 currentImage={imageDataUrl}
                 onClear={handleClearImage}
               />
+              {aspectRatioWarning && (
+                <p className="flex items-center gap-2 mt-2 text-xs text-amber-400">
+                  <span>⚠</span>
+                  {aspectRatioWarning}
+                </p>
+              )}
             </section>
 
             <section>
