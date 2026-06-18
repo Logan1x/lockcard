@@ -15,17 +15,17 @@
 - [x] Gradient buttons: show color swatches — small preview bars with actual gradient
 - [x] Font buttons: show label rendered in the actual font family + weight
 
-## Phase 3 — Preview & Download
+## Phase 3 — Preview, Download & Privacy Banner ✅ (Complete)
 
-- [ ] Add "Preview" label above phone preview with eye icon
-- [ ] Animate preview transition when image loads
-- [ ] Premium CTA glow on download button
-- [ ] Add "PNG · Full resolution" format note below button
-- [ ] Disabled state should look intentional, not grayed-out
+- [x] Redesign privacy banner as compact green-tinted pill with shield icon
+- [x] Add "Preview" label above phone preview with eye icon
+- [x] Animate preview transition — fade in + scale on image load
+- [x] Premium CTA glow — `shadow-lg shadow-[var(--color-accent)]/25` on download button
+- [x] Add "PNG · Full resolution" format note below button
+- [x] Disabled state — subtle border + muted text instead of grayed-out
 
-## Phase 4 — Micro-interactions & Polish
+## Phase 4 — Micro-interactions & Polish ✅ (Complete)
 
-- [ ] Smooth transitions on all state changes
-- [ ] Scale feedback on button clicks
-- [ ] Privacy banner → compact card with shield icon matching landing page
-- [ ] Section headers fade-in on scroll (mobile)
+- [x] Smooth transitions on all state changes
+- [x] Scale feedback on button clicks
+- [x] Section headers fade-in on scroll (mobile)

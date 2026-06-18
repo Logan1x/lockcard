@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Smartphone } from "lucide-react";
 import type { GradientPreset, FontPreset } from "../types";
 import { renderToCanvas } from "../lib/canvas";
@@ -22,13 +22,17 @@ export function PhonePreview({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (!image) {
+      setLoaded(false);
+      return;
+    }
     const canvas = canvasRef.current;
     const previewCanvas = previewCanvasRef.current;
-    if (!canvas || !previewCanvas || !image) return;
+    if (!canvas || !previewCanvas) return;
 
-    // Render at full resolution on hidden canvas
     canvas.width = image.naturalWidth;
     canvas.height = image.naturalHeight;
     renderToCanvas(canvas, image, {
@@ -40,12 +44,12 @@ export function PhonePreview({
       textPosition: "bottom",
     });
 
-    // Draw scaled version to visible preview
     const previewCtx = previewCanvas.getContext("2d")!;
     previewCanvas.width = 280;
     previewCanvas.height = 560;
     previewCtx.clearRect(0, 0, 280, 560);
     previewCtx.drawImage(canvas, 0, 0, 280, 560);
+    requestAnimationFrame(() => setLoaded(true));
   }, [image, name, phone, message, gradient, font]);
 
   if (!image) {
@@ -63,7 +67,7 @@ export function PhonePreview({
   }
 
   return (
-    <div className="phone-mockup">
+    <div className={`phone-mockup transition-all duration-500 ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
       <canvas ref={canvasRef} className="hidden" />
       <div className="phone-screen">
         <canvas ref={previewCanvasRef} className="w-full h-full object-cover" />

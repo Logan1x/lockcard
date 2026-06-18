@@ -38,6 +38,7 @@ export function Controls({
                   ? "bg-[var(--color-accent)] text-white ring-2 ring-[var(--color-accent)]/30"
                   : "bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-text-muted)]"
                 }
+                active:scale-[0.97]
               `}
             >
               <div className="w-full h-5 rounded-lg overflow-hidden">
@@ -67,10 +68,11 @@ export function Controls({
                 onClick={() => onFontChange(key)}
                 className={`
                   py-3 px-2 rounded-xl text-sm transition-all duration-200 cursor-pointer
-                  ${font === key
-                    ? "bg-[var(--color-accent)] text-white ring-2 ring-[var(--color-accent)]/30"
-                    : "bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-text-muted)]"
-                  }
+                ${font === key
+                  ? "bg-[var(--color-accent)] text-white ring-2 ring-[var(--color-accent)]/30"
+                  : "bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-text-muted)]"
+                }
+                active:scale-[0.97]
                 `}
                 style={{ fontFamily: fp.family, fontWeight: fp.weight }}
               >

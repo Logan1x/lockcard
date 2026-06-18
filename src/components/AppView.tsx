@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Download, RotateCcw, ArrowLeft, Shield } from "lucide-react";
+import { Download, ArrowLeft, Eye } from "lucide-react";
 import { Header } from "./Header";
 import { ThemeToggle } from "./ThemeToggle";
 import { ImageUpload } from "./ImageUpload";
@@ -10,6 +10,27 @@ import { PhonePreview } from "./PhonePreview";
 import { renderToCanvas, exportCanvas } from "../lib/canvas";
 import { getAspectRatioWarning } from "../lib/ratio";
 import type { GradientPreset, FontPreset } from "../types";
+
+function useScrollFade() {
+  useEffect(() => {
+    const els = document.querySelectorAll("[data-fade]");
+    if (!els.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("opacity-0");
+            entry.target.classList.add("anim-fade-up");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
 
 const STORAGE_KEY = "lockcard-form";
 
@@ -31,6 +52,7 @@ function saveState(state: Record<string, string>) {
 
 export function AppView() {
   const navigate = useNavigate();
+  useScrollFade();
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
@@ -105,18 +127,6 @@ export function AppView() {
     }
   }, [name, phone, message, gradient, font]);
 
-  const handleReset = useCallback(() => {
-    setImage(null);
-    setImageDataUrl(null);
-    setName("");
-    setPhone("");
-    setMessage("");
-    setGradient("classic");
-    setFont("clean");
-    localStorage.removeItem(STORAGE_KEY);
-  }, []);
-
-  const hasContent = image && (name || phone);
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -125,7 +135,7 @@ export function AppView() {
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-all duration-200 cursor-pointer active:scale-[0.95]"
           >
             <ArrowLeft size={16} />
             <span className="hidden sm:inline">Back</span>
@@ -135,19 +145,10 @@ export function AppView() {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-4 mt-4 w-full">
-        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)]">
-          <Shield size={14} className="text-[var(--color-text-muted)] shrink-0" />
-          <p className="text-xs text-[var(--color-text-muted)]">
-            100% private, everything runs in your browser. No data leaves your device.
-          </p>
-        </div>
-      </div>
-
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 pb-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
-            <section>
+            <section data-fade className="opacity-0">
               <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
                 Wallpaper
               </h2>
@@ -164,7 +165,7 @@ export function AppView() {
               )}
             </section>
 
-            <section>
+            <section data-fade className="opacity-0">
               <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
                 Contact Info
               </h2>
@@ -178,7 +179,7 @@ export function AppView() {
               />
             </section>
 
-            <section>
+            <section data-fade className="opacity-0">
               <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
                 Customize
               </h2>
@@ -192,7 +193,11 @@ export function AppView() {
           </div>
 
           <div className="lg:w-[320px] flex flex-col items-center gap-6">
-            <section className="flex justify-center">
+            <section data-fade className="opacity-0 flex flex-col items-center gap-3">
+              <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] font-medium uppercase tracking-wider">
+                <Eye size={12} />
+                Preview
+              </div>
               <PhonePreview
                 image={image}
                 name={name}
@@ -204,31 +209,26 @@ export function AppView() {
             </section>
 
             <section className="w-full space-y-3">
-              <button
-                onClick={handleDownload}
-                disabled={!image || !(name || phone) || downloading}
-                className={`
-                  w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer active:scale-[0.98]
-                  ${
-                    image && (name || phone)
-                      ? "bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white"
-                      : "bg-[var(--color-surface)] text-[var(--color-text-muted)] cursor-not-allowed"
-                  }
-                `}
-              >
-                <Download size={18} />
-                {downloading ? "Generating..." : "Download Wallpaper"}
-              </button>
-
-              {hasContent && (
+              <div className="relative">
                 <button
-                  onClick={handleReset}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
+                  onClick={handleDownload}
+                  disabled={!image || !(name || phone) || downloading}
+                  className={`
+                    w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer active:scale-[0.98]
+                    ${image && (name || phone)
+                      ? "bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white shadow-lg shadow-[var(--color-accent)]/25 hover:shadow-xl hover:shadow-[var(--color-accent)]/30"
+                      : "bg-[var(--color-surface)] text-[var(--color-text-muted)]/40 cursor-not-allowed border border-[var(--color-border)]"
+                    }
+                  `}
                 >
-                  <RotateCcw size={14} />
-                  Start over
+                  <Download size={18} />
+                  {downloading ? "Generating..." : "Download Wallpaper"}
                 </button>
-              )}
+              </div>
+              <p className="text-[10px] text-center text-[var(--color-text-muted)]/40">
+                PNG · Full resolution
+              </p>
+
             </section>
           </div>
         </div>
