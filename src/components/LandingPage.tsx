@@ -1,25 +1,47 @@
+import { useState, useEffect, useCallback } from "react";
 import { Shield, ArrowRight, Smartphone, Palette, Download, Eye, Lock, Zap, Phone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    return (localStorage.getItem("lockcard-theme") as "dark" | "light") || "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("lockcard-theme", theme);
+  }, [theme]);
+
+  const handleThemeToggle = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("lockcard-theme", next);
+      return next;
+    });
+  }, []);
+
   return (
     <div className="noise-overlay">
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">
-              <Lock size={14} className="text-[var(--color-bg)]" />
+              <Lock size={14} className="text-[#060606]" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
-          <button
-            onClick={() => navigate("/app")}
-            className="px-5 py-2 rounded-full text-sm font-medium bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 transition-all duration-200 cursor-pointer active:scale-[0.97]"
-          >
-            Open App
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
+            <button
+              onClick={() => navigate("/app")}
+              className="px-5 py-2 rounded-full text-sm font-medium bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 transition-all duration-200 cursor-pointer active:scale-[0.97]"
+            >
+              Open App
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -105,7 +127,7 @@ export function LandingPage() {
                   { stat: "Only 1 in 3", label: "lost phones are ever returned to their owner" },
                   { stat: "0 seconds", label: "it takes for a finder to see your contact info on your wallpaper" },
                 ].map((item) => (
-                  <div key={item.stat} className="p-5 rounded-2xl glass">
+                  <div key={item.stat} className="p-5 rounded-2xl glass-panel">
                     <p className="font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--color-accent)]">{item.stat}</p>
                     <p className="text-sm text-[var(--color-text-muted)] mt-1">{item.label}</p>
                   </div>
@@ -149,7 +171,7 @@ export function LandingPage() {
             ].map((item, i) => (
               <div
                 key={item.step}
-                className={`group relative p-8 rounded-3xl glass hover-lift anim-fade-up delay-${i + 2}`}
+                className={`group relative p-8 rounded-3xl glass-panel hover-lift anim-fade-up delay-${i + 2}`}
               >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-12 h-12 rounded-2xl bg-[var(--color-accent)]/10 flex items-center justify-center group-hover:bg-[var(--color-accent)]/15 transition-all duration-300">
@@ -204,7 +226,7 @@ export function LandingPage() {
       {/* Privacy section */}
       <section className="py-24 sm:py-32 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="relative p-8 sm:p-12 rounded-3xl glass overflow-hidden">
+          <div className="relative p-8 sm:p-12 rounded-3xl glass-panel overflow-hidden">
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center mb-6">
                 <Shield size={28} className="text-green-400" />
@@ -241,7 +263,7 @@ export function LandingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-6 anim-fade-up delay-2">
-            <div className="p-6 rounded-2xl glass">
+            <div className="p-6 rounded-2xl glass-panel">
               <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-text-muted)]">iOS / Android Emergency Info</p>
               <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
                 <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Hidden behind "Emergency" button</li>
@@ -250,7 +272,7 @@ export function LandingPage() {
                 <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">✕</span> Limited customization</li>
               </ul>
             </div>
-            <div className="p-6 rounded-2xl glass border border-[var(--color-accent)]/20">
+            <div className="p-6 rounded-2xl glass-panel border border-[var(--color-accent)]/20">
               <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-accent)]">LockCard</p>
               <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
                 <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Always visible on your lockscreen</li>

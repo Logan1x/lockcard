@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Download, RotateCcw, ArrowLeft, Shield } from "lucide-react";
 import { Header } from "./Header";
+import { ThemeToggle } from "./ThemeToggle";
 import { ImageUpload } from "./ImageUpload";
 import { InfoForm } from "./InfoForm";
 import { Controls } from "./Controls";
@@ -41,6 +42,14 @@ export function AppView() {
   const [font, setFont] = useState<FontPreset>(saved.font ?? "clean");
   const [downloading, setDownloading] = useState(false);
   const [aspectRatioWarning, setAspectRatioWarning] = useState<string | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    return (localStorage.getItem("lockcard-theme") as "dark" | "light") || "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("lockcard-theme", theme);
+  }, [theme]);
 
   const handleImageLoad = useCallback((img: HTMLImageElement, dataUrl: string) => {
     setImage(img);
@@ -52,6 +61,14 @@ export function AppView() {
     setImage(null);
     setImageDataUrl(null);
     setAspectRatioWarning(null);
+  }, []);
+
+  const handleThemeToggle = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("lockcard-theme", next);
+      return next;
+    });
   }, []);
 
   const handleDownload = useCallback(() => {
@@ -99,7 +116,7 @@ export function AppView() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <nav className="sticky top-0 z-50 glass border-b border-[var(--color-border)]">
+      <nav className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg)]">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <button
             onClick={() => navigate("/")}
@@ -109,7 +126,7 @@ export function AppView() {
             <span className="hidden sm:inline">Back</span>
           </button>
           <Header />
-          <div className="w-12" />
+          <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
         </div>
       </nav>
 
