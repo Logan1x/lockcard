@@ -84,12 +84,12 @@ export function LandingPage() {
             <h1 className="font-[family-name:var(--font-display)] text-6xl sm:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.75] mb-6 anim-fade-up delay-1">
               Your phone is lost.
               <br />
-              <span className="text-[var(--color-accent)]">Bring it back with one look.</span>
+              <span className="text-[var(--color-accent)]">One look. One call. Home.</span>
             </h1>
 
             {/* Subheading */}
             <p className="text-lg sm:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed anim-fade-up delay-2">
-              Your contact info lives on your lockscreen wallpaper — visible the moment someone picks up your phone. No menus to dig through. No passcode needed.
+              Your contact info lives on your lockscreen wallpaper. Anyone who picks up your phone sees who to call. No menus. No passcode.
             </p>
 
             {/* CTA */}
