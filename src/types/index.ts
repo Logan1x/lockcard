@@ -1,17 +1,5 @@
 export type GradientPreset = "classic" | "subtle" | "bold" | "minimal";
 export type FontPreset = "clean" | "bold" | "classic";
-export type TextPosition = "bottom" | "top";
-
-export interface AppState {
-  image: HTMLImageElement | null;
-  imageDataUrl: string | null;
-  name: string;
-  phone: string;
-  message: string;
-  gradient: GradientPreset;
-  font: FontPreset;
-  textPosition: TextPosition;
-}
 
 export const GRADIENT_PRESETS: Record<
   GradientPreset,

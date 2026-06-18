@@ -180,7 +180,7 @@ export function LandingPage() {
               { icon: Eye, title: "Live preview", desc: "See exactly how your lockscreen looks before downloading. No guessing." },
               { icon: Palette, title: "4 gradient styles", desc: "Classic, Subtle, Bold, Minimal. Pick the one that fits your wallpaper." },
               { icon: Zap, title: "Instant download", desc: "Full-resolution PNG. Set it as your wallpaper and you're done." },
-              { icon: Smartphone, title: "Top or bottom placement", desc: "Put your contact info where it looks best on your specific wallpaper." },
+              { icon: Smartphone, title: "Bottom placement", desc: "Your contact info sits at the bottom, always visible but never in the way." },
               { icon: Shield, title: "Zero data collection", desc: "No accounts, no servers, no analytics. Everything runs in your browser." },
               { icon: Lock, title: "Works offline", desc: "Once loaded, it all runs locally. No internet connection needed." },
             ].map((item, i) => (

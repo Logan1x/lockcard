@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { GradientPreset, FontPreset, TextPosition } from "../types";
+import type { GradientPreset, FontPreset } from "../types";
 import { renderToCanvas } from "../lib/canvas";
 
 interface Props {
@@ -9,7 +9,6 @@ interface Props {
   message: string;
   gradient: GradientPreset;
   font: FontPreset;
-  textPosition: TextPosition;
 }
 
 export function PhonePreview({
@@ -19,7 +18,6 @@ export function PhonePreview({
   message,
   gradient,
   font,
-  textPosition,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,7 +36,7 @@ export function PhonePreview({
       message,
       gradient,
       font,
-      textPosition,
+      textPosition: "bottom",
     });
 
     // Draw scaled version to visible preview
@@ -47,7 +45,7 @@ export function PhonePreview({
     previewCanvas.height = 560;
     previewCtx.clearRect(0, 0, 280, 560);
     previewCtx.drawImage(canvas, 0, 0, 280, 560);
-  }, [image, name, phone, message, gradient, font, textPosition]);
+  }, [image, name, phone, message, gradient, font]);
 
   if (!image) {
     return (

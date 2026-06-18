@@ -7,7 +7,7 @@ import { InfoForm } from "./InfoForm";
 import { Controls } from "./Controls";
 import { PhonePreview } from "./PhonePreview";
 import { renderToCanvas, exportCanvas } from "../lib/canvas";
-import type { GradientPreset, FontPreset, TextPosition } from "../types";
+import type { GradientPreset, FontPreset } from "../types";
 
 const STORAGE_KEY = "lockcard-form";
 
@@ -38,7 +38,6 @@ export function AppView() {
   const [message, setMessage] = useState(saved.message ?? "");
   const [gradient, setGradient] = useState<GradientPreset>(saved.gradient ?? "classic");
   const [font, setFont] = useState<FontPreset>(saved.font ?? "clean");
-  const [textPosition, setTextPosition] = useState<TextPosition>(saved.textPosition ?? "bottom");
   const [downloading, setDownloading] = useState(false);
 
   const handleImageLoad = useCallback((img: HTMLImageElement, dataUrl: string) => {
@@ -66,7 +65,7 @@ export function AppView() {
         message,
         gradient,
         font,
-        textPosition,
+        textPosition: "bottom",
       });
 
       const link = document.createElement("a");
@@ -75,11 +74,11 @@ export function AppView() {
       link.click();
       setDownloading(false);
     });
-  }, [image, name, phone, message, gradient, font, textPosition]);
+  }, [image, name, phone, message, gradient, font]);
 
   useEffect(() => {
-    saveState({ name, phone, message, gradient, font, textPosition });
-  }, [name, phone, message, gradient, font, textPosition]);
+    saveState({ name, phone, message, gradient, font });
+  }, [name, phone, message, gradient, font]);
 
   const handleReset = useCallback(() => {
     setImage(null);
@@ -89,7 +88,6 @@ export function AppView() {
     setMessage("");
     setGradient("classic");
     setFont("clean");
-    setTextPosition("bottom");
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 
@@ -120,82 +118,88 @@ export function AppView() {
         </div>
       </div>
 
-      <main className="flex-1 w-full max-w-lg mx-auto px-4 py-6 pb-8">
-        <section className="mb-6">
-          <ImageUpload
-            onImageLoad={handleImageLoad}
-            currentImage={imageDataUrl}
-            onClear={handleClearImage}
-          />
-        </section>
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 pb-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1 space-y-6">
+            <section>
+              <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
+                Wallpaper
+              </h2>
+              <ImageUpload
+                onImageLoad={handleImageLoad}
+                currentImage={imageDataUrl}
+                onClear={handleClearImage}
+              />
+            </section>
 
-        <section className="mb-6">
-          <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
-            Contact Info
-          </h2>
-          <InfoForm
-            name={name}
-            phone={phone}
-            message={message}
-            onNameChange={setName}
-            onPhoneChange={setPhone}
-            onMessageChange={setMessage}
-          />
-        </section>
+            <section>
+              <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
+                Contact Info
+              </h2>
+              <InfoForm
+                name={name}
+                phone={phone}
+                message={message}
+                onNameChange={setName}
+                onPhoneChange={setPhone}
+                onMessageChange={setMessage}
+              />
+            </section>
 
-        <section className="mb-6">
-          <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
-            Customize
-          </h2>
-          <Controls
-            gradient={gradient}
-            font={font}
-            textPosition={textPosition}
-            onGradientChange={setGradient}
-            onFontChange={setFont}
-            onTextPositionChange={setTextPosition}
-          />
-        </section>
+            <section>
+              <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
+                Customize
+              </h2>
+              <Controls
+                gradient={gradient}
+                font={font}
+                onGradientChange={setGradient}
+                onFontChange={setFont}
+              />
+            </section>
+          </div>
 
-        <section className="mb-6 flex justify-center">
-          <PhonePreview
-            image={image}
-            name={name}
-            phone={phone}
-            message={message}
-            gradient={gradient}
-            font={font}
-            textPosition={textPosition}
-          />
-        </section>
+          <div className="lg:w-[320px] flex flex-col items-center gap-6">
+            <section className="flex justify-center">
+              <PhonePreview
+                image={image}
+                name={name}
+                phone={phone}
+                message={message}
+                gradient={gradient}
+                font={font}
+              />
+            </section>
 
-        <section className="space-y-3">
-          <button
-            onClick={handleDownload}
-            disabled={!image || downloading}
-            className={`
-              w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer active:scale-[0.98]
-              ${
-                image
-                  ? "bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white"
-                  : "bg-[var(--color-surface)] text-[var(--color-text-muted)] cursor-not-allowed"
-              }
-            `}
-          >
-            <Download size={18} />
-            {downloading ? "Generating..." : "Download Wallpaper"}
-          </button>
+            <section className="w-full space-y-3">
+              <button
+                onClick={handleDownload}
+                disabled={!image || downloading}
+                className={`
+                  w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer active:scale-[0.98]
+                  ${
+                    image
+                      ? "bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white"
+                      : "bg-[var(--color-surface)] text-[var(--color-text-muted)] cursor-not-allowed"
+                  }
+                `}
+              >
+                <Download size={18} />
+                {downloading ? "Generating..." : "Download Wallpaper"}
+              </button>
 
-          {hasContent && (
-            <button
-              onClick={handleReset}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
-            >
-              <RotateCcw size={14} />
-              Start over
-            </button>
-          )}
-        </section>
+              {hasContent && (
+                <button
+                  onClick={handleReset}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
+                >
+                  <RotateCcw size={14} />
+                  Start over
+                </button>
+              )}
+            </section>
+          </div>
+        </div>
       </main>
 
       <footer className="text-center py-4 text-xs text-[var(--color-text-muted)] space-y-1">

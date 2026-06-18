@@ -8,7 +8,6 @@ function formatPhone(value: string): string {
 import {
   type GradientPreset,
   type FontPreset,
-  type TextPosition,
   GRADIENT_PRESETS,
   FONT_PRESETS,
 } from "../types";
@@ -22,7 +21,7 @@ export function renderToCanvas(
     message: string;
     gradient: GradientPreset;
     font: FontPreset;
-    textPosition: TextPosition;
+    textPosition: "bottom";
   }
 ): void {
   const { width, height } = canvas;
@@ -34,18 +33,8 @@ export function renderToCanvas(
 
   // Draw gradient overlay
   const preset = GRADIENT_PRESETS[opts.gradient];
-  const isTop = opts.textPosition === "top";
-
-  let gradientStart: number;
-  let gradientEnd: number;
-
-  if (isTop) {
-    gradientStart = 0;
-    gradientEnd = height * preset.heightRatio;
-  } else {
-    gradientStart = height * (1 - preset.heightRatio);
-    gradientEnd = height;
-  }
+  const gradientStart = height * (1 - preset.heightRatio);
+  const gradientEnd = height;
 
   const gradient = ctx.createLinearGradient(0, gradientStart, 0, gradientEnd);
   for (const stop of preset.stops) {
@@ -64,7 +53,7 @@ export function renderToCanvas(
   const messageFontSize = Math.round(width * 0.022);
   const padding         = Math.round(width * 0.07);
   const gap             = Math.round(width * 0.02);
-  const groupGap        = Math.round(width * 0.06); // larger gap between identity and contact groups
+  const groupGap        = Math.round(width * 0.06);
 
   ctx.textBaseline = "top";
 
@@ -76,69 +65,34 @@ export function renderToCanvas(
     letterSpacing?: number;
   }[] = [];
 
+  // Build bottom-to-top: start at the bottom edge and walk up
   let hrY = 0;
+  let y = height - padding;
 
-  if (isTop) {
-    let y = padding + 20;
-
-    // Identity group
-    lines.push({ text: opts.name, fontSize: nameFontSize, y });
-    const nameBottom = y + nameFontSize;
-
-    // Divider sits midway through the group gap
-    hrY = nameBottom + groupGap * 0.5;
-
-    // Contact group
-    y = nameBottom + groupGap;
-    lines.push({
-      text: "IF FOUND PLEASE CALL:",
-      fontSize: labelFontSize,
-      y,
-      opacity: 0.6,
-      letterSpacing: 1.5,
-    });
-    y += labelFontSize + gap;
-
-    lines.push({ text: formatPhone(opts.phone), fontSize: phoneFontSize, y });
-    y += phoneFontSize + gap;
-
-    if (opts.message) {
-      lines.push({ text: opts.message, fontSize: messageFontSize, y, opacity: 0.7 });
-    }
-  } else {
-    // Build bottom-to-top: start at the bottom edge and walk up
-    let y = height - padding;
-
-    // Message (lowest, optional)
-    if (opts.message) {
-      y -= messageFontSize;
-      lines.push({ text: opts.message, fontSize: messageFontSize, y, opacity: 0.7 });
-      y -= gap;
-    }
-
-    // Phone
-    y -= phoneFontSize;
-    lines.push({ text: formatPhone(opts.phone), fontSize: phoneFontSize, y });
+  if (opts.message) {
+    y -= messageFontSize;
+    lines.push({ text: opts.message, fontSize: messageFontSize, y, opacity: 0.7 });
     y -= gap;
-
-    // Label
-    y -= labelFontSize;
-    lines.push({
-      text: "IF FOUND PLEASE CALL:",
-      fontSize: labelFontSize,
-      y,
-      opacity: 0.6,
-      letterSpacing: 1.5,
-    });
-
-    // Divider sits midway through the group gap
-    const contactTop = y;
-    hrY = contactTop - groupGap * 0.5;
-
-    // Name (top of bottom block)
-    y = contactTop - groupGap - nameFontSize;
-    lines.push({ text: opts.name, fontSize: nameFontSize, y });
   }
+
+  y -= phoneFontSize;
+  lines.push({ text: formatPhone(opts.phone), fontSize: phoneFontSize, y });
+  y -= gap;
+
+  y -= labelFontSize;
+  lines.push({
+    text: "IF FOUND PLEASE CALL:",
+    fontSize: labelFontSize,
+    y,
+    opacity: 0.6,
+    letterSpacing: 1.5,
+  });
+
+  const contactTop = y;
+  hrY = contactTop - groupGap * 0.5;
+
+  y = contactTop - groupGap - nameFontSize;
+  lines.push({ text: opts.name, fontSize: nameFontSize, y });
 
   // Draw text with shadow
   ctx.shadowColor    = "rgba(0,0,0,0.55)";
