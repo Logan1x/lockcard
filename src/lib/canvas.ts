@@ -1,3 +1,10 @@
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+}
+
 import {
   type GradientPreset,
   type FontPreset,
@@ -92,7 +99,7 @@ export function renderToCanvas(
     });
     y += labelFontSize + gap;
 
-    lines.push({ text: opts.phone, fontSize: phoneFontSize, y });
+    lines.push({ text: formatPhone(opts.phone), fontSize: phoneFontSize, y });
     y += phoneFontSize + gap;
 
     if (opts.message) {
@@ -111,7 +118,7 @@ export function renderToCanvas(
 
     // Phone
     y -= phoneFontSize;
-    lines.push({ text: opts.phone, fontSize: phoneFontSize, y });
+    lines.push({ text: formatPhone(opts.phone), fontSize: phoneFontSize, y });
     y -= gap;
 
     // Label

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Download, RotateCcw, ArrowLeft, Shield } from "lucide-react";
 import { Header } from "./Header";
@@ -9,16 +9,36 @@ import { PhonePreview } from "./PhonePreview";
 import { renderToCanvas, exportCanvas } from "../lib/canvas";
 import type { GradientPreset, FontPreset, TextPosition } from "../types";
 
+const STORAGE_KEY = "lockcard-form";
+
+function loadSaved() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
+function saveState(state: Record<string, string>) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch { /* quota exceeded, silently ignore */ }
+}
+
 export function AppView() {
   const navigate = useNavigate();
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
-  const [gradient, setGradient] = useState<GradientPreset>("classic");
-  const [font, setFont] = useState<FontPreset>("clean");
-  const [textPosition, setTextPosition] = useState<TextPosition>("bottom");
+
+  const saved = loadSaved();
+  const [name, setName] = useState(saved.name ?? "");
+  const [phone, setPhone] = useState(saved.phone ?? "");
+  const [message, setMessage] = useState(saved.message ?? "");
+  const [gradient, setGradient] = useState<GradientPreset>(saved.gradient ?? "classic");
+  const [font, setFont] = useState<FontPreset>(saved.font ?? "clean");
+  const [textPosition, setTextPosition] = useState<TextPosition>(saved.textPosition ?? "bottom");
   const [downloading, setDownloading] = useState(false);
 
   const handleImageLoad = useCallback((img: HTMLImageElement, dataUrl: string) => {
@@ -57,6 +77,10 @@ export function AppView() {
     });
   }, [image, name, phone, message, gradient, font, textPosition]);
 
+  useEffect(() => {
+    saveState({ name, phone, message, gradient, font, textPosition });
+  }, [name, phone, message, gradient, font, textPosition]);
+
   const handleReset = useCallback(() => {
     setImage(null);
     setImageDataUrl(null);
@@ -66,6 +90,7 @@ export function AppView() {
     setGradient("classic");
     setFont("clean");
     setTextPosition("bottom");
+    localStorage.removeItem(STORAGE_KEY);
   }, []);
 
   const hasContent = image && (name || phone);

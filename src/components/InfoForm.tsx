@@ -1,5 +1,12 @@
 import { User, Phone, MessageSquare } from "lucide-react";
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+}
+
 interface Props {
   name: string;
   phone: string;
@@ -29,6 +36,7 @@ export function InfoForm({
           placeholder="Your name"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
+          maxLength={30}
           className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)]"
         />
       </div>
@@ -41,7 +49,8 @@ export function InfoForm({
           type="tel"
           placeholder="Phone number"
           value={phone}
-          onChange={(e) => onPhoneChange(e.target.value)}
+          onChange={(e) => onPhoneChange(formatPhone(e.target.value))}
+          maxLength={12}
           className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)]"
         />
       </div>
@@ -55,6 +64,7 @@ export function InfoForm({
           value={message}
           onChange={(e) => onMessageChange(e.target.value)}
           rows={2}
+          maxLength={60}
           className="w-full pl-10 pr-4 py-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-sm focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-[var(--color-text-muted)] resize-none"
         />
       </div>
