@@ -84,13 +84,12 @@ export function LandingPage() {
             <h1 className="font-[family-name:var(--font-display)] text-6xl sm:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.75] mb-6 anim-fade-up delay-1">
               Your phone is lost.
               <br />
-              <span className="text-[var(--color-accent)]">Now what?</span>
+              <span className="text-[var(--color-accent)]">Bring it back with one look.</span>
             </h1>
 
             {/* Subheading */}
             <p className="text-lg sm:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed anim-fade-up delay-2">
-              LockCard puts your name and phone number directly on your wallpaper. 
-              Whoever finds it sees exactly who to call. No app needed, no unlock required.
+              Your contact info lives on your lockscreen wallpaper — visible the moment someone picks up your phone. No menus to dig through. No passcode needed.
             </p>
 
             {/* CTA */}
@@ -99,10 +98,17 @@ export function LandingPage() {
                 onClick={() => navigate("/app")}
                 className="group px-8 py-4 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-base flex items-center gap-3 hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97]"
               >
-                Create your lockscreen
+                Create your free LockCard
                 <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
               </button>
               <span className="text-sm text-[var(--color-text-muted)]">Free. No signup. No data collected.</span>
+              <div className="flex items-center gap-4 text-[10px] text-[var(--color-text-muted)]/50">
+                <span>100% open source</span>
+                <span className="w-px h-3 bg-[var(--color-text-muted)]/20" />
+                <span>No tracking</span>
+                <span className="w-px h-3 bg-[var(--color-text-muted)]/20" />
+                <span>Built in public</span>
+              </div>
             </div>
           </div>
         </div>
@@ -264,7 +270,7 @@ export function LandingPage() {
           <div className="text-center mb-16">
             <p className="text-xs font-medium text-[var(--color-accent-light)] uppercase tracking-[0.2em] mb-3 anim-fade-up">Why LockCard</p>
             <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-5xl font-bold tracking-tight anim-fade-up delay-1">
-              Not just another wallpaper app.
+              Built to bring your phone home.
             </h2>
           </div>
 
@@ -369,7 +375,7 @@ export function LandingPage() {
             onClick={() => navigate("/app")}
             className="group px-10 py-5 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-lg flex items-center gap-3 mx-auto hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97] anim-fade-up delay-2"
           >
-            Get started, it's free
+            Create your LockCard for free
             <ArrowRight size={20} className="transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>
