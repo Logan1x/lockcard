@@ -228,8 +228,8 @@ export function LandingPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="relative p-8 sm:p-12 rounded-3xl glass-panel overflow-hidden">
             <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center mb-6">
-                <Shield size={28} className="text-green-400" />
+              <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-500/15 flex items-center justify-center mb-6">
+                <Shield size={28} className="text-green-700 dark:text-green-400" />
               </div>
               <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                 Your data never leaves your device.
@@ -242,7 +242,7 @@ export function LandingPage() {
                 {["No accounts", "No cookies", "No tracking", "Open source"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20"
+                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-300 dark:border-green-500/20"
                   >
                     {tag}
                   </span>
@@ -275,10 +275,10 @@ export function LandingPage() {
             <div className="p-6 rounded-2xl glass-panel border border-[var(--color-accent)]/20">
               <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-accent)]">LockCard</p>
               <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
-                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Always visible on your lockscreen</li>
-                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Anyone can see it, no tech skills needed</li>
-                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Zero taps, just look at the screen</li>
-                <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> Works with any wallpaper you choose</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Always visible on your lockscreen</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Anyone can see it, no tech skills needed</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Zero taps, just look at the screen</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Works with any wallpaper you choose</li>
               </ul>
             </div>
           </div>

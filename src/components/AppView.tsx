@@ -98,7 +98,11 @@ export function AppView() {
   }, [image, name, phone, message, gradient, font]);
 
   useEffect(() => {
-    saveState({ name, phone, message, gradient, font });
+    if (name || phone || message) {
+      saveState({ name, phone, message, gradient, font });
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+    }
   }, [name, phone, message, gradient, font]);
 
   const handleReset = useCallback(() => {
@@ -131,9 +135,9 @@ export function AppView() {
       </nav>
 
       <div className="max-w-5xl mx-auto px-4 mt-4 w-full">
-        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500/10 border border-green-500/20">
-          <Shield size={14} className="text-green-500 shrink-0" />
-          <p className="text-xs text-green-500/90">
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)]">
+          <Shield size={14} className="text-[var(--color-text-muted)] shrink-0" />
+          <p className="text-xs text-[var(--color-text-muted)]">
             100% private, everything runs in your browser. No data leaves your device.
           </p>
         </div>
@@ -201,11 +205,11 @@ export function AppView() {
             <section className="w-full space-y-3">
               <button
                 onClick={handleDownload}
-                disabled={!image || downloading}
+                disabled={!image || !(name || phone) || downloading}
                 className={`
                   w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer active:scale-[0.98]
                   ${
-                    image
+                    image && (name || phone)
                       ? "bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white"
                       : "bg-[var(--color-surface)] text-[var(--color-text-muted)] cursor-not-allowed"
                   }
@@ -229,7 +233,8 @@ export function AppView() {
         </div>
       </main>
 
-      <footer className="text-center py-4 text-xs text-[var(--color-text-muted)] space-y-1">
+      <footer className="border-t border-[var(--color-border)]">
+        <div className="max-w-5xl mx-auto w-full px-4 py-4 flex items-center justify-between text-xs text-[var(--color-text-muted)]">
         <p>LockCard, Your info, on your lockscreen</p>
         <button
           onClick={() => navigate("/privacy")}
@@ -237,6 +242,7 @@ export function AppView() {
         >
           Privacy Policy
         </button>
+        </div>
       </footer>
     </div>
   );

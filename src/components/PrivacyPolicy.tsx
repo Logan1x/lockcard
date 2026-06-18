@@ -25,8 +25,8 @@ export function PrivacyPolicy() {
           {/* Hero section */}
           <div className="bg-[var(--color-surface)] rounded-2xl p-6 border border-[var(--color-border)]">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-green-500/15 flex items-center justify-center">
-                <Shield size={20} className="text-green-500" />
+              <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-500/15 flex items-center justify-center">
+                <Shield size={20} className="text-green-700 dark:text-green-500" />
               </div>
               <div>
                 <h2 className="font-semibold">100% Private</h2>
