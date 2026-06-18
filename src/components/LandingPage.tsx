@@ -10,10 +10,10 @@ export function LandingPage() {
   });
 
   const carouselItems = [
-    { img: "/74431463-a98b-4a9d-8a59-9741cd50f65b.webp", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
-    { img: "/c9bd51f2-f8dc-406e-a100-d696787e9403.webp", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
-    { img: "/e7d7266f-8b59-407a-8372-c29285113eeb.webp", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
-    { img: "/5c110299-536c-4da3-b893-5f52e5b680e0.webp", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
+    { img: "/402be458-1269-4f44-96d7-4c05736d75e8.webp", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
+    { img: "/5c110299-536c-4da3-b893-5f52e5b680e0.webp", name: "Arjun Mehta", phone: "718-333-4567", msg: "if found please call" },
+    { img: "/7e5366ec-b495-4a7e-85d1-206aa64cbf7a.webp", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
+    { img: "/eafee518-799b-4b53-b8ed-911a89b8f8bf.webp", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
     { img: "/95a95cec-2c30-4cd3-956c-0c1e874cb63e.webp", name: "Emily Davis", phone: "503-222-3456", msg: "call my mom" },
   ];
 
