@@ -28,8 +28,8 @@ export function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">
-              <Lock size={14} className="text-[#060606]" />
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-text)] flex items-center justify-center">
+              <Lock size={14} className="text-[var(--color-bg)]" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
@@ -308,7 +308,7 @@ export function LandingPage() {
       <footer className="border-t border-[var(--color-border)] py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-[var(--color-accent)] flex items-center justify-center">
+            <div className="w-6 h-6 rounded-md bg-[var(--color-text)] flex items-center justify-center">
               <Lock size={10} className="text-[var(--color-bg)]" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-semibold text-sm">LockCard</span>
