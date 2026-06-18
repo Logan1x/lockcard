@@ -18,21 +18,52 @@ export function LandingPage() {
   ];
 
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const touchX = useRef<number | null>(null);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const dragStartX = useRef<number | null>(null);
+  const carouselIndexRef = useRef(carouselIndex);
+  carouselIndexRef.current = carouselIndex;
+  const backCardIndexRef = useRef<number | null>(null);
+  const isAnimatingCarousel = useRef(false);
+  const N = carouselItems.length;
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchX.current = e.touches[0].clientX;
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (isAnimatingCarousel.current) return;
+    dragStartX.current = e.touches[0].clientX;
+    backCardIndexRef.current = null;
+    setIsTransitioning(false);
+    setDragOffset(0);
   }, []);
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (touchX.current === null) return;
-    const diff = e.changedTouches[0].clientX - touchX.current;
-    touchX.current = null;
-    if (Math.abs(diff) < 50) return;
-    setCarouselIndex(i => diff > 0
-      ? (i - 1 + carouselItems.length) % carouselItems.length
-      : (i + 1) % carouselItems.length
-    );
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (dragStartX.current === null) return;
+    if (isAnimatingCarousel.current) return;
+    setDragOffset(e.touches[0].clientX - dragStartX.current);
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (dragStartX.current === null) return;
+    const diff = e.changedTouches[0].clientX - dragStartX.current;
+    dragStartX.current = null;
+    if (Math.abs(diff) < 60) {
+      setIsTransitioning(true);
+      setDragOffset(0);
+      setTimeout(() => setIsTransitioning(false), 350);
+      return;
+    }
+    isAnimatingCarousel.current = true;
+    const revealed = diff > 0
+      ? (carouselIndexRef.current - 1 + N) % N
+      : (carouselIndexRef.current + 1) % N;
+    backCardIndexRef.current = revealed;
+    setCarouselIndex(revealed);
+    setIsTransitioning(true);
+    setDragOffset(diff > 0 ? 600 : -600);
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setDragOffset(0);
+      isAnimatingCarousel.current = false;
+    }, 350);
   }, []);
 
   const tiltClasses = ["-rotate-[5deg]", "-rotate-[3deg]", "rotate-0", "rotate-[3deg]", "rotate-[5deg]"];
@@ -115,32 +146,72 @@ export function LandingPage() {
 
         {/* Carousel */}
         {(() => {
-          const item = carouselItems[carouselIndex];
+          const renderCard = (cardItem: typeof carouselItems[number], showAnim: boolean) => (
+            <div className={`phone-mockup relative z-10 ${showAnim ? 'glow-pulse float-anim' : ''}`}>
+              <div className="phone-screen flex flex-col justify-end p-5 relative overflow-hidden">
+                <img src={cardItem.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="relative z-10">
+                  <p className="font-[family-name:var(--font-display)] text-white text-lg font-bold mb-1">{cardItem.name}</p>
+                  <p className="text-white/60 text-xs mb-1">If found please call:</p>
+                  <p className="text-white text-base font-semibold mb-2">{cardItem.phone}</p>
+                  <p className="text-white/50 text-xs">{cardItem.msg}</p>
+                </div>
+              </div>
+            </div>
+          );
+
+          const abs = Math.min(Math.abs(dragOffset), 300);
+          const d = dragOffset;
+          const currentScale = 1 - abs * 0.00045;
+          const currentOpacity = 1 - abs * 0.002;
+          const adjacentScale = 0.88 + abs * 0.0004;
+          const adjacentOpacity = 0.3 + abs * 0.0023;
+          const computedAdjacent = d > 0
+            ? (carouselIndex - 1 + N) % N
+            : (carouselIndex + 1) % N;
+          const adjacentIndex = backCardIndexRef.current ?? computedAdjacent;
+          const isIdle = !isTransitioning && dragOffset === 0;
+
           return (<>
             {/* Mobile swipe carousel */}
             <div className="sm:hidden pb-8">
               <div
                 onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="select-none"
+                className="select-none touch-pan-y"
               >
-                <div className="flex justify-center anim-scale-in">
-                  <div className="relative">
-                    <div className="phone-mockup glow-pulse relative z-10 float-anim">
-                      <div className="phone-screen flex flex-col justify-end p-5 relative overflow-hidden">
-                        <img src={item.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                        <div className="relative z-10">
-                          <p className="font-[family-name:var(--font-display)] text-white text-lg font-bold mb-1">{item.name}</p>
-                          <p className="text-white/60 text-xs mb-1">If found please call:</p>
-                          <p className="text-white text-base font-semibold mb-2">{item.phone}</p>
-                          <p className="text-white/50 text-xs">{item.msg}</p>
-                        </div>
-                      </div>
+                <div className="flex justify-center">
+                  <div className="relative min-h-[580px] w-full max-[400px]:min-h-[500px]">
+                    <div
+                      className="absolute inset-0 flex items-start justify-center pt-8"
+                      style={{
+                        transform: `scale(${adjacentScale})`,
+                        opacity: adjacentOpacity,
+                        transition: isTransitioning
+                          ? 'transform 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1)'
+                          : 'none',
+                      }}
+                    >
+                      {renderCard(carouselItems[adjacentIndex], false)}
+                    </div>
+                    <div
+                      className="absolute inset-0 flex items-start justify-center pt-8"
+                      style={{
+                        transform: `translateX(${d}px) rotate(${d * 0.06}deg) scale(${currentScale})`,
+                        opacity: currentOpacity,
+                        transition: isTransitioning
+                          ? 'transform 300ms cubic-bezier(0.23, 1, 0.32, 1), opacity 300ms cubic-bezier(0.23, 1, 0.32, 1)'
+                          : 'none',
+                        willChange: 'transform',
+                      }}
+                    >
+                      {renderCard(carouselItems[carouselIndex], isIdle)}
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center gap-2 mt-6">
+                <div className="flex justify-center gap-2 mt-14">
                   {carouselItems.map((_, i) => (
                     <button key={i} onClick={() => setCarouselIndex(i)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${i === carouselIndex ? "bg-[var(--color-text)] w-5" : "bg-[var(--color-text-muted)]/30"}`}
