@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Shield, ArrowRight, Smartphone, Palette, Download, Eye, Lock, Zap, Phone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ThemeToggle } from "./ThemeToggle";
@@ -8,6 +8,34 @@ export function LandingPage() {
   const [theme, setTheme] = useState<"dark" | "light">(() => {
     return (localStorage.getItem("lockcard-theme") as "dark" | "light") || "dark";
   });
+
+  const carouselItems = [
+    { img: "/74431463-a98b-4a9d-8a59-9741cd50f65b.jpeg", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
+    { img: "/22e362ac-b079-47e0-b07b-208ae2876a7c.jpeg", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
+    { img: "/e7d7266f-8b59-407a-8372-c29285113eeb.jpeg", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
+    { img: "/8fd77b0f-87a7-4a34-bc97-01beba0556a2.jpeg", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
+    { img: "/95a95cec-2c30-4cd3-956c-0c1e874cb63e.jpeg", name: "Emily Davis", phone: "503-222-3456", msg: "call my mom" },
+  ];
+
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const touchX = useRef<number | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchX.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchX.current;
+    touchX.current = null;
+    if (Math.abs(diff) < 50) return;
+    setCarouselIndex(i => diff > 0
+      ? (i - 1 + carouselItems.length) % carouselItems.length
+      : (i + 1) % carouselItems.length
+    );
+  }, []);
+
+  const tiltClasses = ["-rotate-[5deg]", "-rotate-[3deg]", "rotate-0", "rotate-[3deg]", "rotate-[5deg]"];
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -45,61 +73,104 @@ export function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+      {/* Hero + Carousel */}
+      <section className="min-h-screen flex flex-col relative pt-16">
         {/* Subtle background glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[var(--color-accent)]/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 text-center relative z-10">
-          {/* Heading */}
-          <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-6 anim-fade-up delay-1">
-            Your phone is lost.
-            <br />
-            <span className="text-[var(--color-accent)]">Now what?</span>
-          </h1>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center relative z-10">
+            {/* Heading */}
+            <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-6 anim-fade-up delay-1">
+              Your phone is lost.
+              <br />
+              <span className="text-[var(--color-accent)]">Now what?</span>
+            </h1>
 
-          {/* Subheading */}
-          <p className="text-lg sm:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed anim-fade-up delay-2">
-            LockCard puts your name and phone number directly on your wallpaper. 
-            Whoever finds it sees exactly who to call. No app needed, no unlock required.
-          </p>
+            {/* Subheading */}
+            <p className="text-lg sm:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed anim-fade-up delay-2">
+              LockCard puts your name and phone number directly on your wallpaper. 
+              Whoever finds it sees exactly who to call. No app needed, no unlock required.
+            </p>
 
-          {/* CTA */}
-          <div className="flex flex-col items-center gap-3 anim-fade-up delay-3">
-            <button
-              onClick={() => navigate("/app")}
-              className="group px-8 py-4 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-base flex items-center gap-3 hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97]"
-            >
-              Create your lockscreen
-              <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
-            </button>
-            <span className="text-sm text-[var(--color-text-muted)]">Free. No signup. No data collected.</span>
-          </div>
-
-          {/* Phone mockup preview */}
-          <div className="mt-16 sm:mt-24 anim-scale-in delay-5 flex justify-center">
-            <div className="relative">
-              <div className="phone-mockup glow-pulse relative z-10 float-anim">
-                <div className="phone-screen flex flex-col justify-end p-5 relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="relative z-10">
-                    <p className="font-[family-name:var(--font-display)] text-white text-lg font-bold mb-1">Khushal Sharma</p>
-                    <p className="text-white/60 text-xs mb-1">If found please call:</p>
-                    <p className="text-white text-base font-semibold mb-2">921XXXX373</p>
-                    <p className="text-white/50 text-xs">call my brother</p>
-                  </div>
-                </div>
-              </div>
+            {/* CTA */}
+            <div className="flex flex-col items-center gap-3 anim-fade-up delay-3">
+              <button
+                onClick={() => navigate("/app")}
+                className="group px-8 py-4 rounded-2xl bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold text-base flex items-center gap-3 hover:bg-[var(--color-accent-hover)] transition-all duration-200 cursor-pointer active:scale-[0.97]"
+              >
+                Create your lockscreen
+                <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
+              </button>
+              <span className="text-sm text-[var(--color-text-muted)]">Free. No signup. No data collected.</span>
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 anim-fade-in delay-8">
-          <div className="w-5 h-8 rounded-full border border-[var(--color-text-muted)]/30 flex justify-center pt-1.5">
-            <div className="w-1 h-2 rounded-full bg-[var(--color-text-muted)]/50 animate-bounce" />
-          </div>
-        </div>
+        {/* Carousel */}
+        {(() => {
+          const item = carouselItems[carouselIndex];
+          return (<>
+            {/* Mobile swipe carousel */}
+            <div className="sm:hidden pb-8">
+              <div
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="select-none"
+              >
+                <div className="flex justify-center anim-scale-in">
+                  <div className="relative">
+                    <div className="phone-mockup glow-pulse relative z-10 float-anim">
+                      <div className="phone-screen flex flex-col justify-end p-5 relative overflow-hidden">
+                        <img src={item.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                        <div className="relative z-10">
+                          <p className="font-[family-name:var(--font-display)] text-white text-lg font-bold mb-1">{item.name}</p>
+                          <p className="text-white/60 text-xs mb-1">If found please call:</p>
+                          <p className="text-white text-base font-semibold mb-2">{item.phone}</p>
+                          <p className="text-white/50 text-xs">{item.msg}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center gap-2 mt-6">
+                  {carouselItems.map((_, i) => (
+                    <button key={i} onClick={() => setCarouselIndex(i)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${i === carouselIndex ? "bg-[var(--color-text)] w-5" : "bg-[var(--color-text-muted)]/30"}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop tilted carousel */}
+            <div className="hidden sm:block pb-12">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="flex justify-center items-center gap-4 sm:gap-6">
+                  {carouselItems.map((item, i) => (
+                    <div key={i}
+                      className={`${tiltClasses[i]} hover:rotate-0 hover:scale-105 transition-all duration-300 ease-out cursor-default ${i === 2 ? "z-10 scale-110" : "z-0 scale-85 sm:scale-90 opacity-60 hover:opacity-100"} ${i === 0 || i === 4 ? "hidden lg:block" : ""}`}
+                    >
+                      <div className="phone-mockup !w-[200px] !h-[410px] lg:!w-[240px] lg:!h-[500px]">
+                        <div className="phone-screen relative overflow-hidden">
+                          <img src={item.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5 z-10">
+                            <p className="font-[family-name:var(--font-display)] text-white text-sm lg:text-base font-bold mb-1">{item.name}</p>
+                            <p className="text-white/60 text-[10px] lg:text-xs mb-1">If found please call:</p>
+                            <p className="text-white text-xs lg:text-sm font-semibold mb-1 lg:mb-2">{item.phone}</p>
+                            <p className="text-white/50 text-[10px] lg:text-xs">{item.msg}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>);
+        })()}
       </section>
 
       {/* Problem section */}
@@ -228,8 +299,8 @@ export function LandingPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="relative p-8 sm:p-12 rounded-3xl glass-panel overflow-hidden">
             <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-500/15 flex items-center justify-center mb-6">
-                <Shield size={28} className="text-green-700 dark:text-green-400" />
+              <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-50/15 border border-green-300 dark:border-green-500/40 flex items-center justify-center mb-6">
+                <Shield size={28} className="text-green-700 dark:text-green-500/40" />
               </div>
               <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                 Your data never leaves your device.
@@ -242,7 +313,7 @@ export function LandingPage() {
                 {["No accounts", "No cookies", "No tracking", "Open source"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-300 dark:border-green-500/20"
+                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-100 dark:bg-green-50/15 text-green-700 dark:text-green-500/40 border border-green-300 dark:border-green-500/40"
                   >
                     {tag}
                   </span>
@@ -275,10 +346,10 @@ export function LandingPage() {
             <div className="p-6 rounded-2xl glass-panel border border-[var(--color-accent)]/20">
               <p className="font-[family-name:var(--font-display)] font-semibold text-sm mb-4 text-[var(--color-accent)]">LockCard</p>
               <ul className="space-y-3 text-sm text-[var(--color-text-muted)]">
-                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Always visible on your lockscreen</li>
-                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Anyone can see it, no tech skills needed</li>
-                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Zero taps, just look at the screen</li>
-                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-400 mt-0.5">✓</span> Works with any wallpaper you choose</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-500/40 mt-0.5">✓</span> Always visible on your lockscreen</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-500/40 mt-0.5">✓</span> Anyone can see it, no tech skills needed</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-500/40 mt-0.5">✓</span> Zero taps, just look at the screen</li>
+                <li className="flex items-start gap-2"><span className="text-green-700 dark:text-green-500/40 mt-0.5">✓</span> Works with any wallpaper you choose</li>
               </ul>
             </div>
           </div>
