@@ -100,20 +100,20 @@ export function AppView() {
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="sticky top-0 z-50 glass border-b border-[var(--color-border)]">
-        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors cursor-pointer"
           >
             <ArrowLeft size={16} />
-            <span className="hidden sm:inline">Home</span>
+            <span className="hidden sm:inline">Back</span>
           </button>
           <Header />
-          <div className="w-16" />
+          <div className="w-12" />
         </div>
       </nav>
 
-      <div className="max-w-lg mx-auto px-4 mt-4 w-full">
+      <div className="max-w-5xl mx-auto px-4 mt-4 w-full">
         <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500/10 border border-green-500/20">
           <Shield size={14} className="text-green-500 shrink-0" />
           <p className="text-xs text-green-500/90">
