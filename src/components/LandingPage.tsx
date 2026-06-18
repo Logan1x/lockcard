@@ -11,9 +11,9 @@ export function LandingPage() {
 
   const carouselItems = [
     { img: "/74431463-a98b-4a9d-8a59-9741cd50f65b.jpeg", name: "Sarah Chen", phone: "415-867-5309", msg: "please call my husband" },
-    { img: "/22e362ac-b079-47e0-b07b-208ae2876a7c.jpeg", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
+    { img: "/c9bd51f2-f8dc-406e-a100-d696787e9403.jpeg", name: "James Wilson", phone: "212-555-0198", msg: "return to owner — reward" },
     { img: "/e7d7266f-8b59-407a-8372-c29285113eeb.jpeg", name: "Priya Patel", phone: "312-444-7890", msg: "call my brother" },
-    { img: "/8fd77b0f-87a7-4a34-bc97-01beba0556a2.jpeg", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
+    { img: "/5c110299-536c-4da3-b893-5f52e5b680e0.jpeg", name: "Marcus Johnson", phone: "718-333-4567", msg: "if found please call" },
     { img: "/95a95cec-2c30-4cd3-956c-0c1e874cb63e.jpeg", name: "Emily Davis", phone: "503-222-3456", msg: "call my mom" },
   ];
 
@@ -56,8 +56,8 @@ export function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-text)] flex items-center justify-center">
-              <Lock size={14} className="text-[var(--color-bg)]" />
+            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+              <Lock size={14} className="text-black" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
@@ -81,7 +81,7 @@ export function LandingPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center relative z-10">
             {/* Heading */}
-            <h1 className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-6 anim-fade-up delay-1">
+            <h1 className="font-[family-name:var(--font-display)] text-6xl sm:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.75] mb-6 anim-fade-up delay-1">
               Your phone is lost.
               <br />
               <span className="text-[var(--color-accent)]">Now what?</span>
@@ -379,8 +379,8 @@ export function LandingPage() {
       <footer className="border-t border-[var(--color-border)] py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-[var(--color-text)] flex items-center justify-center">
-              <Lock size={10} className="text-[var(--color-bg)]" />
+            <div className="w-6 h-6 rounded-md bg-white flex items-center justify-center">
+              <Lock size={10} className="text-black" />
             </div>
             <span className="font-[family-name:var(--font-display)] font-semibold text-sm">LockCard</span>
           </div>
