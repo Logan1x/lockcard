@@ -60,15 +60,16 @@ export function ImageUpload({ onImageLoad, currentImage, onClear }: Props) {
 
   if (currentImage) {
     return (
-      <div className="relative rounded-2xl overflow-hidden border border-[var(--color-border)]">
+      <div className="relative rounded-2xl overflow-hidden border border-[var(--color-border)] group">
         <img
           src={currentImage}
           alt="Uploaded wallpaper"
           className="w-full h-48 object-cover"
         />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
         <button
           onClick={onClear}
-          className="absolute top-3 right-3 p-2 rounded-full bg-black/60 hover:bg-black/80 transition-colors cursor-pointer"
+          className="absolute top-3 right-3 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white opacity-0 group-hover:opacity-100 hover:bg-white/20 transition-all duration-200 cursor-pointer active:scale-90"
         >
           <X size={16} />
         </button>
@@ -84,17 +85,23 @@ export function ImageUpload({ onImageLoad, currentImage, onClear }: Props) {
         onDragLeave={onDragLeave}
         onClick={() => inputRef.current?.click()}
         className={`
-          flex flex-col items-center justify-center gap-3 p-8 rounded-2xl border-2 border-dashed
-          cursor-pointer transition-all duration-200
-          ${
-            dragOver
-              ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
-              : "border-[var(--color-border)] hover:border-[var(--color-text-muted)] bg-[var(--color-surface)]"
+          relative flex flex-col items-center justify-center gap-3 p-8 rounded-2xl border-2 border-dashed
+          cursor-pointer transition-all duration-300
+          ${dragOver
+            ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 scale-[1.02]"
+            : "border-[var(--color-border)] hover:border-[var(--color-text-muted)] bg-[var(--color-surface)] hover:scale-[1.01]"
           }
         `}
+        style={{
+          backgroundImage: dragOver ? undefined : 'radial-gradient(circle at 50% 50%, var(--color-border) 0.5px, transparent 0.5px)',
+          backgroundSize: '20px 20px',
+        }}
       >
         {dragOver ? (
-          <ImageIcon size={32} className="text-[var(--color-accent)]" />
+          <div className="relative">
+            <div className="absolute inset-0 animate-ping rounded-full bg-[var(--color-accent)]/20" />
+            <ImageIcon size={32} className="text-[var(--color-accent)] relative" />
+          </div>
         ) : (
           <Upload size={32} className="text-[var(--color-text-muted)]" />
         )}

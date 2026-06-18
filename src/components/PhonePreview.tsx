@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Smartphone } from "lucide-react";
 import type { GradientPreset, FontPreset } from "../types";
 import { renderToCanvas } from "../lib/canvas";
 
@@ -50,8 +51,12 @@ export function PhonePreview({
   if (!image) {
     return (
       <div className="phone-mockup flex items-center justify-center">
-        <div className="text-center text-[var(--color-text-muted)] px-6">
-          <p className="text-sm">Upload a wallpaper to see preview</p>
+        <div className="text-center px-6">
+          <div className="w-12 h-12 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center mx-auto mb-4">
+            <Smartphone size={22} className="text-[var(--color-text-muted)]" />
+          </div>
+          <p className="text-sm font-medium">No wallpaper yet</p>
+          <p className="text-xs text-[var(--color-text-muted)] mt-1">Upload an image to preview</p>
         </div>
       </div>
     );
