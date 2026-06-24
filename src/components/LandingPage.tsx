@@ -82,7 +82,7 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="noise-overlay">
+    <div className="noise-overlay overflow-x-hidden">
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -92,7 +92,7 @@ export function LandingPage() {
             </div>
             <span className="font-[family-name:var(--font-display)] font-bold text-lg tracking-tight">LockCard</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pr-1">
             <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
             <button
               onClick={() => navigate("/app")}
