@@ -84,8 +84,8 @@ export function LandingPage() {
   return (
     <div className="noise-overlay">
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)] border-b border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 w-screen max-w-[100vw] overflow-hidden bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
               <Lock size={14} className="text-black" />
@@ -175,12 +175,12 @@ export function LandingPage() {
 
           return (<>
             {/* Mobile swipe carousel */}
-            <div className="sm:hidden pb-8">
+            <div className="sm:hidden w-full max-w-[100vw] -mt-12 pt-12 pb-24 overflow-hidden" style={{ contain: "paint" }}>
               <div
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                className="select-none touch-pan-y"
+                className="select-none touch-pan-y overflow-hidden"
               >
                 <div className="flex justify-center">
                   <div className="relative min-h-[580px] w-full max-[400px]:min-h-[500px]">

@@ -161,6 +161,47 @@
         animation: pulseGlow 3s ease-in-out infinite;
       }
 
+      @keyframes pulseGlowMobileLight {
+        0%, 100% {
+          box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.18),
+            0 16px 42px rgba(0, 0, 0, 0.22),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 18px rgba(245, 158, 11, 0.08);
+        }
+        50% {
+          box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.18),
+            0 18px 48px rgba(0, 0, 0, 0.24),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 28px rgba(245, 158, 11, 0.14);
+        }
+      }
+
+      @media (max-width: 639px) {
+        .phone-mockup {
+          box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.18),
+            0 16px 42px rgba(0, 0, 0, 0.22),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-pulse {
+          animation-name: pulseGlowMobileLight;
+        }
+
+        .dark .phone-mockup {
+          box-shadow:
+            0 0 0 2px #333,
+            0 20px 60px rgba(0, 0, 0, 0.5),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .dark .glow-pulse {
+          animation-name: pulseGlow;
+        }
+      }
+
       .shimmer-text {
         background: linear-gradient(
           90deg,
