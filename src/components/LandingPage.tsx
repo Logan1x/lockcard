@@ -376,8 +376,8 @@ export function LandingPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="relative p-8 sm:p-12 rounded-3xl glass-panel overflow-hidden">
             <div className="relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-50/15 border border-green-300 dark:border-green-500/40 flex items-center justify-center mb-6">
-                <Shield size={28} className="text-green-700 dark:text-green-500/40" />
+              <div className="w-14 h-14 rounded-2xl bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 flex items-center justify-center mb-6">
+                <Shield size={28} className="text-green-600 dark:text-green-400" />
               </div>
               <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                 Your data never leaves your device.
@@ -390,7 +390,7 @@ export function LandingPage() {
                 {["No accounts", "No cookies", "No tracking", "Open source"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-100 dark:bg-green-50/15 text-green-700 dark:text-green-500/40 border border-green-300 dark:border-green-500/40"
+                    className="px-4 py-2 rounded-full text-xs font-medium bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/20"
                   >
                     {tag}
                   </span>
