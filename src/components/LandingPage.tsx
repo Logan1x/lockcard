@@ -175,7 +175,7 @@ export function LandingPage() {
 
           return (<>
             {/* Mobile swipe carousel */}
-            <div className="sm:hidden w-full max-w-[100vw] -mt-12 pt-12 pb-24 overflow-hidden" style={{ contain: "paint" }}>
+            <div className="sm:hidden w-full max-w-[100vw] -mt-12 pt-12 overflow-hidden" style={{ contain: "paint" }}>
               <div
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
