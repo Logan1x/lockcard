@@ -211,7 +211,7 @@ export function LandingPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center gap-2 mt-14">
+                <div className="flex justify-center gap-2 mt-14 mb-[30px]">
                   {carouselItems.map((_, i) => (
                     <button key={i} onClick={() => setCarouselIndex(i)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${i === carouselIndex ? "bg-[var(--color-text)] w-5" : "bg-[var(--color-text-muted)]/30"}`}
